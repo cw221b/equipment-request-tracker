@@ -21,6 +21,10 @@ export function validateRequest(input = {}) {
   if (!clean(input.neededBy)) errors.neededBy = "Select the date needed.";
   if (!clean(input.reason)) errors.reason = "Enter a business reason.";
 
+  if (!["Low", "Normal", "High"].includes(input.priority ?? "Normal")) {
+    errors.priority = "Select Low, Normal, or High priority.";
+  }
+
   return errors;
 }
 
@@ -42,6 +46,7 @@ export function createRequest(input, options = {}) {
     requester: clean(input.requester),
     department: clean(input.department),
     equipment: clean(input.equipment),
+    priority: input.priority ?? "Normal",
     neededBy: clean(input.neededBy),
     reason: clean(input.reason),
     createdAt: now.toISOString(),
