@@ -62,3 +62,23 @@ Sorting criteria below depend on confirmation of the proposed sorting assumption
 - Changing the Normal default for newly created requests.
 - Search, department/date filters, approval workflows, notifications, or request status tracking.
 - Deleting requests, redesigning the interface, or changing unrelated application behavior.
+
+## Verification Results
+
+Verified on October 18, 2026 against implementation commit `8d3cc66fe683659e8a06c87feb4148a22c8f02b1`. All 14 automated tests passed. Browser checks used the actual application files supplied through intercepted requests because sandbox restrictions blocked localhost access; direct browser-to-server delivery was not verified.
+
+| Criterion | Result | Evidence |
+| --- | --- | --- |
+| 1 | Pass | Initial load showed All, newest first, and every saved request. |
+| 2 | Pass | Each priority selection showed only its matching requests and replaced the previous selection. |
+| 3 | Pass | All restored the complete list without duplicates. |
+| 4 | Pass | High, Normal, Low order; newest within groups; equal timestamps retained relative order. |
+| 5 | Pass | Changing either control preserved the other selection and produced the matching ordered list. |
+| 6 | Pass | Missing priority displayed and filtered as Low, was excluded from Normal and High, and remained absent in storage. |
+| 7 | Pass | No-match text was exact; All with no saved requests retained the original empty state. |
+| 8 | Pass | Refresh restored All and newest first without losing requests. |
+| 9 | Pass | Stored JSON and record order were unchanged after view operations and refresh. |
+| 10 | Pass | New requests defaulted to Normal; all three priorities persisted; active filter and sort remained effective after submission. |
+| 11 | Pass | Filtering worked with newest-first sorting unchanged. |
+| 12 | Pass | Priority sorting worked with All unchanged; switching back restored newest-first order. |
+| 13 | Pass | Keyboard selection, Tab navigation, and visible focus passed; application files required no login, database, or external service. |
