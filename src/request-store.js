@@ -89,3 +89,21 @@ function isRequestRecord(value) {
     typeof value.createdAt === "string"
   );
 }
+
+export function effectivePriority(request) {
+  return request.priority ?? "Low";
+}
+
+export function selectRequests(requests, priority = "All", sort = "newest") {
+  const ranks = { High: 0, Normal: 1, Low: 2 };
+  // Filter creates a new array so sorting never changes the saved list.
+  return requests
+    .filter((request) => priority === "All" || effectivePriority(request) === priority)
+    .sort((a, b) => {
+      if (sort === "priority") {
+        const difference = ranks[effectivePriority(a)] - ranks[effectivePriority(b)];
+        if (difference) return difference;
+      }
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+}

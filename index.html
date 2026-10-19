@@ -103,6 +103,27 @@
           <p id="request-count" class="request-count">0 requests</p>
         </div>
 
+        <div class="field-grid">
+          <div class="field">
+            <label for="priority-filter">Filter by priority</label>
+            <select id="priority-filter">
+              <option value="All" selected>All</option>
+              <option>Low</option>
+              <option>Normal</option>
+              <option>High</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="request-sort">Sort requests</label>
+            <select id="request-sort">
+              <option value="newest" selected>Newest first</option>
+              <option value="priority">Priority (High to Low)</option>
+            </select>
+          </div>
+        </div>
+
+        <p id="no-matches" class="empty-state" role="status" hidden>No matching requests.</p>
+
         <div id="empty-state" class="empty-state">
           <h3>No requests yet</h3>
           <p>Add the first equipment request using the form.</p>
