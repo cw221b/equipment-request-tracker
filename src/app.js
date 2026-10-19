@@ -2,6 +2,8 @@ import {
   RequestValidationError,
   appendRequest,
   createRequest,
+  effectivePriority,
+  selectRequests,
   loadRequests,
   saveRequests,
 } from "./request-store.js";
@@ -14,7 +16,17 @@ const emptyState = document.querySelector("#empty-state");
 const tableWrapper = document.querySelector("#request-table-wrapper");
 const tableBody = document.querySelector("#request-table-body");
 
+const priorityFilter = document.querySelector("#priority-filter");
+const requestSort = document.querySelector("#request-sort");
+const noMatches = document.querySelector("#no-matches");
+
 let requests = loadRequests();
+
+// View choices are intentionally not persisted.
+priorityFilter.value = "All";
+requestSort.value = "newest";
+priorityFilter.addEventListener("change", renderRequests);
+requestSort.addEventListener("change", renderRequests);
 
 neededByInput.min = new Date().toISOString().slice(0, 10);
 renderRequests();
@@ -48,11 +60,13 @@ form.addEventListener("submit", (event) => {
 });
 
 function renderRequests() {
-  const hasRequests = requests.length > 0;
+  const visibleRequests = selectRequests(requests, priorityFilter.value, requestSort.value);
+  const hasRequests = visibleRequests.length > 0;
   count.textContent = `${requests.length} ${requests.length === 1 ? "request" : "requests"}`;
-  emptyState.hidden = hasRequests;
+  emptyState.hidden = hasRequests || priorityFilter.value !== "All";
+  noMatches.hidden = hasRequests || priorityFilter.value === "All";
   tableWrapper.hidden = !hasRequests;
-  tableBody.replaceChildren(...requests.map(createRequestRow));
+  tableBody.replaceChildren(...visibleRequests.map(createRequestRow));
 }
 
 function createRequestRow(request) {
@@ -61,7 +75,7 @@ function createRequestRow(request) {
     request.requester,
     request.department,
     request.equipment,
-    request.priority ?? "Normal",
+    effectivePriority(request),
     formatDate(request.neededBy),
     request.reason,
     formatDateTime(request.createdAt),
