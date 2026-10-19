@@ -12,7 +12,7 @@ As a manager, I need to view one priority at a time and order requests by priori
 
 1. Provide a visibly labeled priority filter with All, Low, Normal, and High choices. Only one choice can be active at a time.
 2. Initially show all requests. Refreshing the page resets the filter to All; the selection is not persisted.
-3. Provide a visibly labeled sort control supporting newest first and priority order. Filtering and sorting work together.
+3. Provide a visibly labeled sort control supporting newest first and priority order. Filtering and sorting must work independently as well as together. Users can filter by a single priority while leaving sorting at newest first, or sort all requests by priority while leaving the filter at All. Neither control requires a change to the other control.
 4. Treat an existing request without a saved priority as Low for display, filtering, and sorting. Do not write this fallback into the stored record.
 5. When a selected priority has no matching requests, show exactly "No matching requests." Preserve the existing empty-state message when All is selected and no requests exist.
 6. Selecting All restores every saved request, using the active sort order.
@@ -50,7 +50,9 @@ Sorting criteria below depend on confirmation of the proposed sorting assumption
 8. After selecting a filter and priority sorting, refreshing restores All and newest first while retaining every saved request.
 9. Comparing stored request data before and after filtering, sorting, and refreshing shows no changes to records or their stored order.
 10. Adding a request still defaults to Normal, allows Low or High, and retains the selected priority after reload. The displayed list continues to honor the active filter and sort.
-11. All behavior works without authentication, a database, or an external service, and the controls can be operated by keyboard.
+11. Filtering alone: with sorting left at newest first, selecting any priority shows only matching requests in newest-first order without requiring a sort selection.
+12. Sorting alone: with the filter left at All, selecting priority sorting orders every request by priority without requiring a filter selection. Returning sorting to newest first restores newest-first order without changing the filter.
+13. All behavior works without authentication, a database, or an external service, and the controls can be operated by keyboard.
 
 ## Out of Scope
 
