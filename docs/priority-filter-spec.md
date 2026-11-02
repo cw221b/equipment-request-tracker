@@ -19,7 +19,7 @@ As a manager, I need to view one priority at a time and order requests by priori
 7. Filtering and sorting change only the displayed list; they must not edit, delete, duplicate, or reorder stored records.
 8. Preserve the existing request creation behavior: new requests default to Normal, and selected Low, Normal, or High values remain saved.
 
-The following sorting details are proposed assumptions, not explicit answers from the user. Confirm them before implementation:
+The following confirmed sorting rules apply:
 
 - Default to newest first, preserving the existing initial order.
 - Priority order is High, then Normal, then Low.
@@ -37,8 +37,6 @@ The following sorting details are proposed assumptions, not explicit answers fro
 - Limit changes to the specified feature and necessary verification.
 
 ## Acceptance Criteria
-
-Sorting criteria below depend on confirmation of the proposed sorting assumptions.
 
 1. Given saved Low, Normal, and High requests, opening or refreshing the application shows all requests with the filter set to All and the sort set to newest first.
 2. Selecting each priority shows only requests with that effective priority. Selecting another priority replaces the previous filter rather than combining selections.
